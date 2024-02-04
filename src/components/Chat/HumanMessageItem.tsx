@@ -1,11 +1,12 @@
 import React from "react";
+import { HumanMessage } from ".";
 
-export function Message2(){
+export default function HumanMessageItem(props: HumanMessage){
     return (
-        <div className="flex flex-row justify-end">
+        <div className="flex flex-row justify-end py-4">
             <div className="bg-white rounded-2xl">
                 <p className="p-4 text-sm">
-                    summarize this video
+                    {props.content}
                 </p>
             </div>
         </div>
