@@ -1,3 +1,4 @@
+import useSocketIOStore from "../SocketIO/useSocketIOStore";
 import AIMessageItem from "./AIMessageItem";
 import HumanMessageItem from "./HumanMessageItem"
 
@@ -27,27 +28,19 @@ export interface HumanMessage  extends BaseMessage{
     type: "human"
 }
 
-interface ChatProps {
-    id: string;
-    history: (AIMessage | HumanMessage)[]
-}
 
-
-
-export default function Chat({id,history}: ChatProps){
-
+export default function Chat(){
+    const store = useSocketIOStore()
     return (
         <div>
-           {
-            history.map(item=>{
+           {store.messages.map(item=>{
                 return (
                     <div key={item.id}>
                         {item.type == "human" && <HumanMessageItem {...item} />}
                         {item.type == "ai" && <AIMessageItem {...item} />}
                     </div>
                 )
-            })
-           }
+            })}
         </div>
     )
 }

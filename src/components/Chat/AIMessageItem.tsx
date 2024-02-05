@@ -12,8 +12,8 @@ export default function AIMessageItem(props: AIMessage) {
                 </div>
             </div>
             <div>
-                <h5 className="text-sm font-bold leading-5">Top Story with Tom Llamas - Jan. 30 | NBC News NOW</h5>
-                <div className="bg-white rounded-2xl">
+                <h5 className="text-sm font-bold leading-5 py-2">Top Story with Tom Llamas - Jan. 30 | NBC News NOW</h5>
+                <div className="border rounded-2xl">
                     <div className="p-4 text-sm">
                     {contents.map((item, index)=>{
                         return (
