@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { AIMessage, HumanMessage } from '../Chat';
+import { AIMessage, HumanMessage } from '@/components/Chat';
 
 type INCOMMING_MESSAGE = {
   id: string;

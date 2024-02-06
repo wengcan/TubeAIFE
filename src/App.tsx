@@ -1,25 +1,23 @@
-import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
 
-import Chat  from './components/Chat'
-import  { AIMessage, HumanMessage, MessageType} from './components/Chat';
-import List from './components/List'
-import {COMMAND_TYPE} from './constants/command'
-import useSocketIO from './components/SocketIO/useSocketIO';
-type INCOMMING_MESSAGE = {
-  id: string;
-  content: string;
-}
+import Chat from './components/Chat'
+import useSocketIO from '@/stores/SocketIO/useSocketIO';
+import Menu from './components/Menu';
+import { useGlobalStore } from './stores/useGlobalStore';
+
 
 function App() {
-  const sendHumanMessage = useSocketIO()
-  const [humanInputMessage, setHumanInputMessage] = useState("");
-  const handleUserSubmit = () => {
-    sendHumanMessage(humanInputMessage)
-    setHumanInputMessage("")
-  }
+  const globalStore = useGlobalStore()
+  const [input_contents, setHumanInput, sendHumanMessage] = useSocketIO()
 
-  
+  const getPlaceholderContents = (): string  =>  {
+    if (globalStore.activeApp == "chat-with-ai"){
+      return 'Send message to AI'
+    }
+
+    
+    return 'Enter the YouTube URL and click send button to start a new conversation'
+  }
 
   return (
     <>
@@ -30,11 +28,9 @@ function App() {
           </div>
         </div> */}
 
-      <div className='w-screen h-screen flex flex-row m-auto bg-neutral-50'>
-        {/* <div className='w-[300px] h-full overflow-y-auto'>
-          <List />
-        </div> */}
-        <div className='w-full flex h-full flex-col'>
+      <div className='w-screen h-screen flex flex-row m-auto bg-gray-100 '>
+        <Menu />
+        <div className='w-full h-full flex flex-col'>
           <div className='flex-1 overflow-hidden'>
             <div className='h-full p-4 pb-0 '>
               <div className='w-full h-full bg-white p-4 flex flex-col gap-5 rounded-xl overflow-y-auto'>
@@ -43,26 +39,24 @@ function App() {
             </div>
           </div>
           <div className='w-full'>
-            <div className='p-4 flex flex-col gap-2'>
-              <div className='w-full   rounded-lg'>
-                <b>Top Story with Tom Llamas - Jan. 30 | NBC News NOW</b>
-              </div>
+            {/* <Templates /> */}
+            <div className='p-4 flex flex-col gap-2 '>
               <div className='w-full h-[120px]'>
                 <div className='w-full'>
-                  <textarea 
-                    value={humanInputMessage}
-                    onChange={e=>{
-                      setHumanInputMessage(e.target.value)
+                  <textarea
+                    value={input_contents}
+                    onChange={e => {
+                      setHumanInput(e.target.value)
                     }}
-                    placeholder='questions here' 
-                    className='w-full h-full border p-4  rounded-xl' 
+                    placeholder={getPlaceholderContents()}
+                    className='w-full h-full border p-4  focus:border   focus:border-blue-800 rounded-xl'
                   />
                 </div>
                 <div className='flex justify-end'>
-                  <button 
-                    onClick={handleUserSubmit}
-                    className={clsx('px-5 py-1  text-white  rounded-lg', humanInputMessage==="" ? "bg-slate-200" : "bg-sky-500" )}
-                    disabled={humanInputMessage===""}
+                  <button
+                    onClick={sendHumanMessage}
+                    className={clsx('px-5 py-1  text-white  rounded-lg', input_contents === "" ? "bg-slate-200" : "bg-sky-500")}
+                    disabled={input_contents === ""}
                   >
                     Send
                   </button>

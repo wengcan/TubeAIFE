@@ -1,9 +1,8 @@
-import useSocketIOStore from "../SocketIO/useSocketIOStore";
+import useSocketIOStore from "@/stores/SocketIO/useSocketIOStore";
 import AIMessageItem from "./AIMessageItem";
 import HumanMessageItem from "./HumanMessageItem"
 
 
-import React from 'react'
 
 export type MessageType =
   | "human"
