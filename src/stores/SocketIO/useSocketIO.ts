@@ -4,9 +4,10 @@ import useSocketIOStore from './useSocketIOStore'
 import { HumanMessage } from "@/components/Chat";
 import { useHumanMessageStore } from "../useHumanMessageStore";
 import { COMMAND } from "@/constants/cmd";
+
 export const socket = io('http://localhost:8080');
 
-
+const youtubeRegex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/gi;
 
 export default function useSocketIO(){
     const store = useSocketIOStore()
@@ -41,10 +42,30 @@ export default function useSocketIO(){
                     content: humanMessageStore.content
                 })
         }
-    }, [humanMessageStore.cmd, humanMessageStore.video_id, humanMessageStore.content])
+    }, [
+        humanMessageStore.cmd, 
+        humanMessageStore.video_id, 
+        humanMessageStore.content
+    ])
     const setHumanInput = (content: string) => {
-        humanMessageStore.setMessage(undefined, content)
+        const matches = content.match(youtubeRegex); 
+        if (matches){
+            console.log(matches[0])
+            loadYoutube(matches[0])
+            setTimeout(()=>{
+                humanMessageStore.setMessage(undefined, "")
+            },1000)
+
+        } else {
+            humanMessageStore.setMessage(undefined, content)
+        }
+
     }
+
+    const loadYoutube = (url: string) => {
+        socket.timeout(5000).emit("message", JSON.stringify({cmd: COMMAND.LOAD, content: url})) , () => {}      
+    }
+ 
     const sendHumanMessage = (_: any) => {
         const message = {
             id: Date.now().toString(),

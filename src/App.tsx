@@ -4,6 +4,7 @@ import Chat from './components/Chat'
 import useSocketIO from '@/stores/SocketIO/useSocketIO';
 import Menu from './components/Menu';
 import { useGlobalStore } from './stores/useGlobalStore';
+import HumanInput from './components/HumanInput';
 
 
 function App() {
@@ -41,7 +42,8 @@ function App() {
           <div className='w-full'>
             {/* <Templates /> */}
             <div className='p-4 flex flex-col gap-2 '>
-              <div className='w-full h-[120px]'>
+              <HumanInput />
+              {/* <div className='w-full h-[120px]'>
                 <div className='w-full'>
                   <textarea
                     value={input_contents}
@@ -61,7 +63,7 @@ function App() {
                     Send
                   </button>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

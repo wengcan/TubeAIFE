@@ -1,3 +1,4 @@
+/// <reference types="vite-plugin-svgr/client" />
 import { useEffect } from "react";
 import MenuItem from "./MenuItem";
 import { useGlobalStore } from "@/stores/useGlobalStore";
