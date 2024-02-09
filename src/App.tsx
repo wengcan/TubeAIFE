@@ -1,24 +1,9 @@
-import clsx from 'clsx';
-
 import Chat from './components/Chat'
-import useSocketIO from '@/stores/SocketIO/useSocketIO';
 import Menu from './components/Menu';
-import { useGlobalStore } from './stores/useGlobalStore';
 import HumanInput from './components/HumanInput';
 
 
 function App() {
-  const globalStore = useGlobalStore()
-  const [input_contents, setHumanInput, sendHumanMessage] = useSocketIO()
-
-  const getPlaceholderContents = (): string  =>  {
-    if (globalStore.activeApp == "chat-with-ai"){
-      return 'Send message to AI'
-    }
-
-    
-    return 'Enter the YouTube URL and click send button to start a new conversation'
-  }
 
   return (
     <>

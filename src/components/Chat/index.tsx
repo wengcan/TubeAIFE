@@ -5,18 +5,23 @@ import HumanMessageItem from "./HumanMessageItem"
 
 
 export type MessageType =
-  | "human"
-  | "ai"
-  | "generic"
-  | "system"
-  | "function"
-  | "tool";
+    | "human"
+    | "ai"
+    | "generic"
+    | "system"
+    | "function"
+    | "tool";
+
+export type MessageStatus = 
+    | "a" // ACCEPTED
+    | 'g' // GENERATING
+    | 'f' // FINISHED
+    | 'e' // ERROR
 
 interface BaseMessage{
     id: string;
     content: string | string[];
-    name?: string;
-    avatar?: string;
+    status?: MessageStatus;
 }
 
 export interface AIMessage  extends BaseMessage{
