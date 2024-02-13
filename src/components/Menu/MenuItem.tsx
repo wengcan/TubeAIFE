@@ -11,9 +11,9 @@ interface MenuItemProps {
 export default function MenuItem({ children, active, label }: MenuItemProps) {
 
   return (
-    <div className={clsx('w-full  flex flex-col items-center py-1', active ? "bg-gray-100" : "")}>
+    <div className={clsx('w-full  flex flex-col items-center py-2', active ? "bg-white dark:bg-zinc-900" : "")}>
       {children}
-      <span className={clsx(' text-xs font-mono text-center', active ? "text-black" : "text-white")}>{label}</span>
+      <span className={clsx(' text-xs font-mono text-center', active ? "text-black dark:text-white" : "text-white dark:text-zinc-200")}>{label}</span>
     </div>
 
   )

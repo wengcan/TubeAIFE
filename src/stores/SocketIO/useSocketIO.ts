@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { io } from 'socket.io-client';
 import useSocketIOStore from './useSocketIOStore'
 import { HumanMessage } from "@/components/Chat";
@@ -26,6 +26,8 @@ export default function useSocketIO(){
         };
     },[])
 
+
+
     const setHumanInput = (contents: string) => {
         const matches = contents.match(youtubeRegex); 
         if (matches){
@@ -48,14 +50,40 @@ export default function useSocketIO(){
         socket.timeout(5000).emit("message", JSON.stringify({cmd: COMMAND.SHORTCUT, id, name})) , () => {}   
     }
  
-    const sendHumanMessage = (_: any) => {
+
+
+    const sendHumanMessage = () => {
         const message = {
             id: Date.now().toString(),
             type: "human",
             content: chatStore.inputContents
         }   as HumanMessage    
+        
+        const historyMessages:any[] = []
+        for(let item of store.messages){
+            if (item.type == "ai"){
+                historyMessages.push({
+                    'role':'model',
+                    'parts':item.content
+                })
+            }
+            if (item.type == "human"){
+                historyMessages.push({
+                    'role':'user',
+                    'parts':[item.content]
+                })
+            }
+        }
+
+        historyMessages.push({
+            'role':'user',
+            'parts':[chatStore.inputContents]
+        })
+
+
         store.appendHumanMessage(message)   
-        socket.timeout(5000).emit("message", JSON.stringify({cmd: COMMAND.CHAT, content: chatStore.inputContents})) , () => {}    
+
+        socket.timeout(5000).emit("message", JSON.stringify({cmd: COMMAND.CHAT, content: historyMessages})) , () => {}    
         chatStore.setInputContents("")    
     }
 

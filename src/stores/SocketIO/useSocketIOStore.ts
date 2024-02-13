@@ -43,7 +43,6 @@ const useSocketIOStore = create<SocketState>((set) => ({
   toggleStatus: () => set((state) => ({ ...state, connected: !state.connected })),
   appendAIMessage: (value: INCOMMING_MESSAGE) => {
     const { id, content, status } = value
-    console.log(id, status)
     if (id) {
       set((state) => {
         const updatedMessages = [...state.messages];

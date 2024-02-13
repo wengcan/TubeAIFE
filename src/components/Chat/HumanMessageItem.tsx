@@ -9,12 +9,12 @@ export default function HumanMessageItem(props: HumanMessage) {
                     <UserLine className="w-[22px] h-[22px] fill-orange-400" />
                 </div>
             </div>
-            <div className="flex flex-col w-full">
+            <div className="flex flex-col w-full dark:text-white">
                 <h5 className="text-sm font-bold leading-5 py-2">You</h5>
-                <div className="">
-                    <p className="text-sm">
+                <div className="p-1">
+                    <div className="text-base">
                         {props.content}
-                    </p>
+                    </div>
                 </div>
             </div>
         </div>

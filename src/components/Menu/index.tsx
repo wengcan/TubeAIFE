@@ -44,15 +44,15 @@ export default function Menu() {
 
 
   return (
-    <div className='w-[80px] flex flex-col items-center h-full overflow-y-auto bg-gray-800 pt-10 gap-4'>
+    <div className='w-[80px] flex flex-col items-center h-full overflow-y-auto  bg-neutral-800 dark:bg-zinc-800 pt-10 gap-4'>
       <a href={`/#/${APP.YT}`}>
         <MenuItem label="YouTube Insight" active={globalStore.activeApp == APP.YT}>
-          <YoutubeLogo className='w-[30px] fill-[#F40003]' />
+          <YoutubeLogo className='w-[24px] fill-[#F40003]' />
         </MenuItem>
       </a>
       <a href={`/#/${APP.CHAT}`}>
         <MenuItem label="Chat with AI" active={globalStore.activeApp == APP.CHAT}>
-          <RebotLogo className='w-[30px] fill-orange-600' />
+          <RebotLogo className='w-[24px] fill-orange-600' />
         </MenuItem>
       </a>
     </div>
