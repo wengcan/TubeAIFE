@@ -28,7 +28,7 @@ export default function HumanInput() {
             if (!get(data, ['info', 'video_id'])) {
                 return 'Enter the YouTube URL to start a new conversation'
             } else {
-                return 'Ask questions about this video'
+                return ' Questioning  for this video'
             }
         }
     }, [
