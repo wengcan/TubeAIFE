@@ -3,19 +3,20 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import Home from "@/views/Home/Home";
+import Chat from "./views/Chat";
 
 const router = createHashRouter([
     {
       path: "/",
       element: <Home />,
-    //   children: [
-    //     // {
-    //     //   path: "team",
-    //     //   element: <Team />,
-    //     //   loader: teamLoader,
-    //     // },
-    //   ],
+      children: [
+        {
+          path: "/chat",
+          element: <Chat />,
+        }
+      ],
     },
+
 ]);
 
 

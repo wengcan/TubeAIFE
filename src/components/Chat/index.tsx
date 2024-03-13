@@ -14,16 +14,11 @@ export type MessageType =
     | "function"
     | "tool";
 
-export type MessageStatus =
-    | "a" // ACCEPTED
-    | 'g' // GENERATING
-    | 'f' // FINISHED
-    | 'e' // ERROR
+
 
 interface BaseMessage {
     id: string;
     content: string | string[];
-    status?: MessageStatus;
 }
 
 export interface AIMessage extends BaseMessage {
@@ -52,7 +47,7 @@ export default function Chat() {
             ref={containerRef}
             scrollTop={scrollY.scrollTop}
         >
-            {store.messages.map(item => {
+            {/* {store.messages.map(item => {
                 return (
                     <div key={item.id} className="chat-history">
                         
@@ -60,7 +55,7 @@ export default function Chat() {
                         {item.type == "ai" && <AIMessageItem {...item} />}
                     </div>
                 )
-            })}
+            })} */}
         </animated.div>
 
     )

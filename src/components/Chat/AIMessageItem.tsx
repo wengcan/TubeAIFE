@@ -40,9 +40,9 @@ export default function AIMessageItem(props: AIMessage) {
 
                     </div>
                     <div className="flex">
-                        {
+                        {/* {
                             (props.status == "a" || props.status == "g") && <Loading />
-                        }
+                        } */}
                     </div>
                 </div>
             </div>
