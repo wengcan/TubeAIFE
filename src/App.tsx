@@ -10,10 +10,7 @@ function App() {
                         <Header size={"sm"} />
                     </div>
                 </div>
-                <div className="flex-1 w-full max-w-[1024px] mb-2">
-                  <Outlet />
-                </div>
-                
+                <Outlet />
             </div>
         </main>
     )
