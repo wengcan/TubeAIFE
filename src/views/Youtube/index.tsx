@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom"
 import remarkGfm from "remark-gfm"
 import Lang, { LangType } from "./Lang"
 import clsx from "clsx"
+import { LinkHistory, storageKey } from "../Home/Home"
 
 
 type VideoInfo = {
@@ -44,12 +45,8 @@ function Youtube() {
         fetchMetaData(`/load`, {
             "url": `https://www.youtube.com/watch?v=${videoId}`
         })
-        .then(() => {
-            setLoading(false)
-        })
+        .then(() => setLoading(false))
     }, [videoId])
-
-
 
     useEffect(()=>{
         const name = activeBtn
@@ -63,6 +60,26 @@ function Youtube() {
             setLoading(false)
         })
     },[lang, activeBtn])
+
+    useEffect(()=>{
+        if (!videoId || !metaData) return
+        try{
+            const history = localStorage.getItem(storageKey)
+            const _history: LinkHistory [] = history ? JSON.parse(history) : []
+            const index = _history.findIndex((item => item.data === videoId))
+            if (index !== -1){
+                const current = _history.splice(index, 1)
+                _history.unshift(current[0])
+            } else {
+                _history.unshift({
+                    type: "youtube",
+                    title: metaData?.title || "",
+                    data: videoId!
+                })
+            }
+            localStorage.setItem(storageKey, JSON.stringify(_history))
+        }catch(e){}
+    },[metaData, videoId])
 
 
     return (
@@ -99,7 +116,7 @@ function Youtube() {
 
                                     </span>
                                     <span>
-                                        <span>ouput language:&nbsp;</span>
+                                        <span>output language:&nbsp;</span>
                                         <Lang
                                             lang={lang as LangType}
                                             disabled={loading}
@@ -120,7 +137,7 @@ function Youtube() {
                     ) : (
                         <div className={
                             clsx(
-                                "flex-1 flex flex-col py-4 max-w-[1024px] font-serif text-sm",
+                                "flex-1 flex flex-col py-4 max-w-[1024px] font-serif",
                                 lang == "ar" ? "rtl text-right " : ""
                             )
                         }>

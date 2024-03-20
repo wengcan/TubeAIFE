@@ -1,12 +1,30 @@
 import clsx from "clsx";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+
+
+type HistoryType = "youtube"
+export type LinkHistory = {
+    type: HistoryType
+    title: string
+    data: string
+}
+export const storageKey = '__history'
+
 
 function Home() {
     const [link, setLink] = useState<string>()
+
+    const [historyItems, setHistoryItems] = useState<LinkHistory[]>([])
     const location = useLocation()
     const navigate = useNavigate();
+
+    useEffect(()=>{
+        const history = localStorage.getItem(storageKey)
+        const _history: LinkHistory [] = history ? JSON.parse(history) : []
+        setHistoryItems(_history)
+    },[])
 
     const videoId = useMemo(()=>{
         if (!link){
@@ -27,34 +45,6 @@ function Home() {
     const handleInputChange = (e: any) => {
         setLink(e.target.value)
     }
-
-    const historyItems = [
-        {
-            id: 1,
-            link: '#',
-            title: 'Top Story with Tom Llamas - March 12 | NBC News NOW'
-        },
-        {
-            id: 2,
-            link: '#',
-            title: 'Asian Americans in New York say they were targeted over race, study shows'
-        },
-        {
-            id: 3,
-            link: '#',
-            title: 'Russia’s Presidential Election – Who dares challenge Vladimir Putin?'
-        },
-        {
-            id: 4,
-            link: '#',
-            title: 'Russia’s Presidential Election – Who dares challenge Vladimir Putin?'
-        },
-        {
-            id: 5,
-            link: '#',
-            title: 'How your Toyota Land Cruiser is made? Toyota factory tour in Japan'
-        }
-    ]
 
 
     return (
@@ -100,15 +90,19 @@ function Home() {
                     </div>
                 </div>
             </div>
-            <div className="p-6 md:p-20 bg-slate-50 flex-1">
+            <div className="w-full p-6 md:p-20 bg-slate-50 flex-1">
                 <h5 className=" font-bold">Rencent:</h5>
                 <p>
                     {
                         historyItems.map(item => {
                             return (
-                                <a href="" key={item.id} className="py-1 pr-4 underline text-sm font-sans text-gray-500 hover:text-gray-950">
+                                <Link 
+                                    key={item.data}  
+                                    className="py-1 pr-4 underline text-sm font-sans text-gray-500 hover:text-gray-950" 
+                                    to={`/${item.type}/${item.data}`}
+                                >
                                     {item.title}
-                                </a>
+                                </Link>
                             )
                         })
                     }
