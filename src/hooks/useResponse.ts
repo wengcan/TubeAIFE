@@ -1,15 +1,13 @@
 import { useState } from "react";
 
 function useResponse<T>() {
-    const [ending, setEnding] = useState<boolean>(true)
     const [data, setData] = useState<T>();
-    async function fetchStreamData(path: string, requestData: any, streaming : boolean = false ){
+    async function fetchStreamData(path: string, requestData: object, streaming : boolean = false ){
         try {
-            setEnding(false)
             const response = await fetch(`${import.meta.env.VITE_API_HOST}${path}`, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': streaming? 'text/plain' : 'application/json'
+                    'Content-Type':  'application/json'
                 },
                 body: JSON.stringify(requestData)
             });
@@ -30,14 +28,13 @@ function useResponse<T>() {
                 const data = await response.json();
                 setData(data as T)
             }
-
+            return Promise.resolve()
         } catch (error) {
             console.error('Error fetching streaming data:', error);
-        } finally {
-            setEnding(true);
-        }
+            return Promise.reject()
+        } 
     };
-    return [ending, data, fetchStreamData] as const;
+    return [data, fetchStreamData] as const;
 }
 
 export default useResponse
