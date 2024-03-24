@@ -4,6 +4,7 @@ function useResponse<T>() {
     const [data, setData] = useState<T>();
     async function fetchStreamData(path: string, requestData: object, streaming : boolean = false ){
         try {
+            setData(undefined);
             const response = await fetch(`${import.meta.env.VITE_API_HOST}${path}`, {
                 method: 'POST',
                 headers: {

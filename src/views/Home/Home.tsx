@@ -90,15 +90,15 @@ function Home() {
                     </div>
                 </div>
             </div>
-            <div className="w-full p-6 md:p-20 bg-slate-50 flex-1">
-                <h5 className=" font-bold">Rencent:</h5>
+            <div className="w-full p-6 md:p-20 bg-slate-50 dark:bg-[#303134] flex-1">
+                <h5 className="font-bold text-gray-500 dark:text-gray-300">Rencent:</h5>
                 <p>
                     {
                         historyItems.map(item => {
                             return (
                                 <Link 
                                     key={item.data}  
-                                    className="py-1 pr-4 underline text-sm font-sans text-gray-500 hover:text-gray-950" 
+                                    className="py-1 pr-4 underline text-sm font-sans text-gray-500 dark:text-gray-300 dark:hover:text-white hover:text-gray-950" 
                                     to={`/${item.type}/${item.data}`}
                                 >
                                     {item.title}

@@ -3,15 +3,13 @@ import { Outlet } from "react-router-dom";
 
 function App() {
     return (
-        <main className="w-screen h-screen flex">
-            <div className="w-full h-full flex-grow flex flex-col items-center gap-4">
-                <div className="w-full p-2 border-b">
+        <main className="w-full min-h-screen flex-grow flex flex-col items-center gap-4 dark:bg-[#171717]">
+                <div className="w-full p-2 border-b dark:bg-[#303134] dark:border-b-gray-500">
                     <div className="max-w-[1024px] max-h-[100px] m-auto">
-                        <Header size={"sm"} />
+                        <Header/>
                     </div>
                 </div>
                 <Outlet />
-            </div>
         </main>
     )
 }

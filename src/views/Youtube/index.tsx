@@ -45,10 +45,10 @@ function Youtube() {
         fetchMetaData(`/load`, {
             "url": `https://www.youtube.com/watch?v=${videoId}`
         })
-        .then(() => setLoading(false))
+            .then(() => setLoading(false))
     }, [videoId])
 
-    useEffect(()=>{
+    useEffect(() => {
         const name = activeBtn
         if (!name) return
         setLoading(true)
@@ -56,18 +56,18 @@ function Youtube() {
             "url": `https://www.youtube.com/watch?v=${videoId}`,
             "lang": lang
         }, true)
-        .then(() => {
-            setLoading(false)
-        })
-    },[lang, activeBtn])
+            .then(() => {
+                setLoading(false)
+            })
+    }, [lang, activeBtn])
 
-    useEffect(()=>{
+    useEffect(() => {
         if (!videoId || !metaData) return
-        try{
+        try {
             const history = localStorage.getItem(storageKey)
-            const _history: LinkHistory [] = history ? JSON.parse(history) : []
+            const _history: LinkHistory[] = history ? JSON.parse(history) : []
             const index = _history.findIndex((item => item.data === videoId))
-            if (index !== -1){
+            if (index !== -1) {
                 const current = _history.splice(index, 1)
                 _history.unshift(current[0])
             } else {
@@ -78,15 +78,25 @@ function Youtube() {
                 })
             }
             localStorage.setItem(storageKey, JSON.stringify(_history))
-        }catch(e){}
-    },[metaData, videoId])
+        } catch (e) { }
+    }, [metaData, videoId])
 
+
+    const copyTextToClipboard = (text: string) => {
+        try{
+            if (!navigator.clipboard) {
+                return;
+            }
+            navigator.clipboard.writeText(text);
+            alert("copy success!")
+        } catch (e) {
+            alert("copy failed!")
+        }
+      };
 
     return (
         <div className="flex-1 w-full max-w-[1024px] mb-2">
-
-
-            <div className="flex h-full flex-col  flex-grow w-full rounded-2xl overflow-hidden p-4 bg-gray-50 border border-gray-100 mb-2">
+            <div className="flex h-full flex-col  flex-grow w-full rounded-2xl overflow-hidden p-4 bg-gray-50 dark:bg-[#202124] border border-gray-100 mb-2">
                 {
                     metaData && (
                         <div className="flex justify-start   border bg-white border-gray-200 p-4 rounded-lg ">
@@ -95,7 +105,6 @@ function Youtube() {
                             </div>
                             <div className="px-2 w-full">
                                 <a href={`https://www.youtube.com/watch?v=${videoId}`} target="_blank" className=" text-slate-900  font-bold font-mono">{metaData?.title}</a>
-
                                 <div className="flex gap-2 justify-between">
                                     <span className="flex gap-2">
                                         {
@@ -128,16 +137,11 @@ function Youtube() {
                         </div>
                     )
                 }
-
                 {
-                    loading ? (
-                        <div className="p-4">
-                            <Loading />
-                        </div>
-                    ) : (
+                    streamData && (
                         <div className={
                             clsx(
-                                "flex-1 flex flex-col py-4 max-w-[1024px] font-serif",
+                                "flex-1 flex flex-col p-12 max-w-[1024px] font-serif dark:text-white",
                                 lang == "ar" ? "rtl text-right " : ""
                             )
                         }>
@@ -150,9 +154,14 @@ function Youtube() {
                             />
                         </div>
                     )
-
                 }
-
+                {
+                    loading && (
+                        <div className="w-full p-4">
+                            <Loading />
+                        </div>
+                    )
+                }
             </div>
         </div>
     )
